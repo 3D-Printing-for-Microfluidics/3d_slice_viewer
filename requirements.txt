@@ -1,0 +1,6 @@
+numpy>=1.21.0
+PyQt5>=5.15.0
+PyOpenGL>=3.1.9
+PyOpenGL-accelerate>=3.1.9
+Pillow>=8.3.0
+pyglet>=2.0.0 
