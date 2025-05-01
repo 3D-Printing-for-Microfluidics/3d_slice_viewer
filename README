@@ -1,100 +1,39 @@
-3D Slice Viewer
-A powerful and interactive 3D slice viewer built with Tkinter, Panda3D, and various image processing libraries, designed to visualize 3D printed layers and their textures with full opacity control, image type toggling, and exposure time-based color customization.
+# 3D Slice Viewer Software
 
-Features
-Interactive 3D Viewing: Visualize 3D slices from print files with full layer and exposure control.
+## Objectives
 
-Layer Opacity Control: Adjust opacity of layers in real-time with a smooth interface.
+- An intuitive way to view slices with their exposures and how they may interact with nearby layers
+- Learn more about TKinter for migrating/upgrading the current slicer from PySimpleGUI (paid now)
+- Use the print files rather than an STL for a 3d view of your print
 
-Image Type and Exposure Time Toggles: Toggle visibility of image types and exposure times independently.
+## Current Status
 
-Smooth Progress Bar: Track file loading with a sleek, animated progress bar that updates with the different stages: Parsing JSON, Finding Images, and Loading Layers.
+The software currently works like so:
+- Takes an unzipped print file
+- parses JSON for data about print and each layer
+- finds all images and uses them to create textures
+- each texture is colored according to the exposure time
+	- colors assigned to each exposure time found in the JSON, each receiving a unique color
+	- exposures +/-50 ms from each other are given a tint or shade of a middle color (groups no bigger than 3)
+	- after loading, a legend is populated with the colors and their correspoding exposure time
+	- after loading, a list of checkboxes is populated to toggle the visibility of each exposure time
+- textures are applied to "cards" that are arranged as layers
+	- cards on the same layer are separated by an "epsilon" value to avoid clipping
+	- cards of different layers are arranged according to the layer height found in JSON
+- loaded as batches of 10, the layers appear in the viewer and you can click and drag to navigate
+	- panning has caused me a lot of problems, it doesn't quite work yet
+- checkboxes for "Image Types" are also populated in the bottom left, usually it denotes which stl files are visible
+- a slider in the control bar allows you to smoothly scroll through layers of a device for analysis
+- to aid in loading speed, the layers are initially not full resolution. 
+- a button can be used to swap into "Quality" mode, where textures have full resolution. 
+- switching to quality mode can take a long time if a lot of layers are visible
+- opacity can also be changed for analysis of the device, though the controls are currently just up/down arrow buttons
 
-Modern UI Design: A dark-themed, modern interface with flat buttons and stylish progress updates.
+## Dependencies
 
-Installation
-Prerequisites
-Ensure you have Python 3.6 or later installed on your system. You can download Python from here.
+program uses the following libraries:
 
-Step 1: Clone the Repository
-bash
-Copy
-git clone https://github.com/yourusername/3d-slice-viewer.git
-cd 3d-slice-viewer
-Step 2: Install Dependencies
-Create a virtual environment (optional but recommended):
-
-bash
-Copy
-python -m venv venv
-source venv/bin/activate  # On Windows, use venv\Scripts\activate
-Install the required packages:
-
-bash
-Copy
-pip install -r requirements.txt
-Step 3: Run the Application
-To start the viewer application:
-
-bash
-Copy
-python main.py
-The GUI will open, and you can load 3D slices to start interacting with the viewer.
-
-Usage
-Load a Print Directory:
-Click on the "Open Directory" button to select the directory containing your print data. This will load the print settings, find images, and load the layers.
-
-Toggling Image Types:
-Use the "Image Types" checkboxes to toggle the visibility of specific image types in the 3D view.
-
-Toggling Exposure Times:
-The "Show/Hide Exposures" checkboxes allow you to toggle visibility based on specific exposure times (represented by colors).
-
-Adjusting Opacity:
-The "Layer Opacity" slider allows you to adjust the opacity of layers. Use the "Apply Opacity" button to apply changes.
-
-Progress Bar:
-While loading files, a progress bar will animate through the phases of Parsing JSON, Finding Images, and Loading Layers. The status at the bottom left of the application will update accordingly.
-
-Dependencies
-tkinter: GUI library for building the application interface.
-
-numpy: Array processing and manipulation (used for image processing).
-
-Pillow: For loading and handling image files.
-
-Panda3D: For 3D rendering and visualization of layers.
-
-ttkbootstrap: For modern and flat-styled Tkinter widgets.
-
-Install via requirements.txt:
-To install all required dependencies, run:
-
-bash
-Copy
-pip install -r requirements.txt
-Contributing
-We welcome contributions! To get started:
-
-Fork the repository
-
-Create a new branch (git checkout -b feature-name)
-
-Make your changes
-
-Commit your changes (git commit -m 'Add feature')
-
-Push to your branch (git push origin feature-name)
-
-Open a pull request
-
-License
-This project is licensed under the MIT License - see the LICENSE file for details.
-
-Acknowledgments
-Panda3D for the powerful 3D rendering capabilities.
-
-Tkinter and ttkbootstrap for the smooth and modern GUI experience.
-
-Pillow and numpy for seamless image processing.
+	NumPy - scientific computing
+    TKinter and ttkbootstrap - gui magic
+    Pillow - image processing
+    Panda3D - 3D rendering and viewer
