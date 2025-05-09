@@ -37,3 +37,10 @@ program uses the following libraries:
     TKinter and ttkbootstrap - gui magic
     Pillow - image processing
     Panda3D - 3D rendering and viewer
+
+## Next Steps
+
+- Program only works with print files that contain a "minimized_slices" folder. For now, you can rename the highest-level folder of slices to "minimized_slices" and it should work fine.
+- Currently doesn't support multi-resolution print files. The framework is there, though.
+- The exposure times shown on the right bar when viewing a print are based on the JSON and not on the specified slicer exposure times. Maybe not an error, but definitely an important note.
+- I think I want to combine the color legend with the hide/show selection boxes to make it more intuitive.
