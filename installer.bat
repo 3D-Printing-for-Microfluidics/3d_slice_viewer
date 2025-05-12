@@ -44,8 +44,14 @@ if '%1'=='ELEV' (del "%vbsGetPrivileges%" 1>nul 2>nul  &  shift /1)
 ::START
 ::::::::::::::::::::::::::::
 
-cd "C:\3d_slice_viewer"
+:: load conda prompt
+call "C:\ProgramData\anaconda3\Scripts\activate.bat" "C:\ProgramData\anaconda3"
+
+SET mypath=%~dp0
+cd %mypath:~0,-1% 
 python -m venv venv
 CALL .\venv\Scripts\activate
 pip install -r requirements.txt
 CALL .\venv\Scripts\deactivate.bat
+
+pause
