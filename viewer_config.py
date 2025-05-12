@@ -4,8 +4,7 @@ from direct.gui import DirectGuiGlobals as DGG
 # Window settings
 WINDOW_TITLE = "3D Slice Viewer"
 WINDOW_SIZE = (1400, 800)
-WINDOW_WIDTH = 1400
-WINDOW_HEIGHT = 800
+WINDOW_WIDTH, WINDOW_HEIGHT = WINDOW_SIZE
 CONTROL_PANEL_WIDTH = 220
 
 # Camera settings

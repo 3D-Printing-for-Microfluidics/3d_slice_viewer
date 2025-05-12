@@ -3,6 +3,7 @@ from tkinter import ttk, filedialog
 import ttkbootstrap as ttkb
 from direct.showbase.ShowBase import ShowBase
 import time
+from panda3d.core import WindowProperties
 
 import viewer_config  # Import configuration settings
 
@@ -123,8 +124,17 @@ class ViewerApp:
         style = ttkb.Style()
 
         self.root.title("3D Slice Viewer")
-        self.root.geometry(f"{viewer_config.WINDOW_WIDTH}x{viewer_config.WINDOW_HEIGHT}")
+        # self.root.geometry(f"{viewer_config.WINDOW_WIDTH}x{viewer_config.WINDOW_HEIGHT}")
         self.root.configure(bg=viewer_config.BG_COLOR)  # Ensure consistent background
+
+        screen_w = self.root.winfo_screenwidth()
+        screen_h = self.root.winfo_screenheight()
+        self.start_w = int(screen_w * 0.85)          # or tweak 0.85 → 0.90 if you prefer
+        self.start_h = int(screen_h * 0.85)
+        self.root.geometry(f"{self.start_w}x{self.start_h}")
+
+        # Minimum window so the side bars never crunch together
+        self.root.minsize(800, 600)
 
         # Apply custom dark theme from viewer_config.py
         style.configure('Viewer.TFrame', background=viewer_config.BG_COLOR)
@@ -185,7 +195,8 @@ class ViewerApp:
         self.main_container.pack(fill=tk.BOTH, expand=True)
 
         # Left control panel (sidebar on the left)
-        panel_width = viewer_config.CONTROL_PANEL_WIDTH
+        # panel_width = viewer_config.CONTROL_PANEL_WIDTH
+        panel_width = max(180, int(self.start_w * 0.14))   # ~14 % of the window
         self.control_panel = ttk.Frame(self.main_container, style='Viewer.TFrame', width=panel_width)
         self.control_panel.pack(side=tk.LEFT, fill=tk.Y, padx=viewer_config.PADDING, pady=viewer_config.PADDING)
         self.control_panel.pack_propagate(False)  # Prevent resizing to fit content
@@ -476,6 +487,8 @@ class ViewerApp:
         frame_window = self.panda_frame.winfo_id()
         
         # Initialize Panda3D with a windowless base.
+        from panda3d.core import load_prc_file_data
+        load_prc_file_data("", "want-tk true\ndisable-message-loop true")
         self.panda3d = ShowBase(windowType='none')
         
         # Create window properties for embedding.
@@ -486,6 +499,13 @@ class ViewerApp:
         
         # Create the Panda3D window using openWindow.
         self.panda3d.openWindow(props=props)
+
+        self.panda_frame.bind(
+            "<Configure>",
+            lambda e: self._resize_panda3d(e.width, e.height)
+        )
+
+        self.panda_frame.bind("<Configure>", self._sync_panda_to_frame)
         
         # Local import to avoid circular dependency.
         from viewer_3d_panda import Viewer3D
@@ -493,11 +513,53 @@ class ViewerApp:
         
         # Set up periodic task to update Panda3D (approx 30 FPS).
         self.root.after(33, self.update_panda3d)
+
+        def _on_close(self):
+            self.panda3d.taskMgr.stop()   # stop any running tasks
+            self.root.destroy()
+        self.root.protocol("WM_DELETE_WINDOW", self._on_close)
+
+
+    def _resize_panda3d(self, width: int, height: int):
+        """Resize Panda3D’s buffer whenever the Tk frame changes size."""
+        if not getattr(self, "panda3d", None):          # not yet initialised
+            return
+        props = WindowProperties()
+        props.setSize(width, height)
+        self.panda3d.win.requestProperties(props)
+
+    def _sync_panda_to_frame(self, event):
+        """Resize *and* correctly reposition Panda3D inside `panda_frame`."""
+        from panda3d.core import WindowProperties
+        props = WindowProperties()
+
+        # 1.  Width / height straight from the <Configure> event
+        props.setSize(event.width, event.height)
+
+        # 2.  Offset relative to the Tk root’s drawable area
+        props.setOrigin(
+            self.panda_frame.winfo_x(),   # ← already root-relative
+            self.panda_frame.winfo_y()
+        )
+        self.panda3d.win.requestProperties(props)
         
     def update_panda3d(self):
         """Update Panda3D's task manager."""
         self.panda3d.taskMgr.step()
         self.root.after(33, self.update_panda3d)
+
+    def _on_close(self) -> None:
+        """Graceful shutdown when the user exits"""
+        try:
+            # Stop Panda’s task manager if it exists (may not if init failed)
+            if hasattr(self, "panda3d") and self.panda3d.taskMgr.running:
+                self.panda3d.taskMgr.stop()
+        except Exception:
+            pass      # don’t let shutdown errors hang the GUI
+
+        # Destroy the Tk window and exit the app
+        self.root.quit()
+        self.root.destroy()
             
     def build_type_toggles(self, available_types):
         """Build the type toggles for image types in the control panel."""
