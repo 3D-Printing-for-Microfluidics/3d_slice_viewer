@@ -1,5 +1,28 @@
 # 3D Slice Viewer Software
 
+## How to Use
+
+### Installation
+- Download all files from GitHub as .zip
+- Extract the zip to the local disc (C:\ top-level folder)
+- Ensure that the extracted folder is named "3d_slice_viewer"
+- Run "installer.bat"
+- After that, you can use the included shortcut (3d_slice_viewer.lnk) to run the program. Shortcut can be placed on your desktop or anywhere else.
+	- *Program will auto-update on start-up*
+### To Use
+- You will need a sliced print file that is UNZIPPED
+- Make sure the highest level slices folder (same folder as the print_settings.json) is named "minimized_slices"
+- Start the slice viewer program
+- Click "Open Directory" in the top left (blue button) and select your print file folder
+- Your print file should load in as a stack of slices arranged in 3D space and color-coded based on exposure time.
+- The right side is populated with a color legend and toggles for turning each color on and off
+- On the left, there are controls for which layers are visible, the opacity, and fast/quality render toggle. The quality stated on the button is the mode you are in.
+- When switching to quality render, it will apply the higher resolution settings to only the currently visible layers. To reduce the time it takes to load, swap into quality mode only after you have found a specific selection of the layers that need analysis.
+### 3D Navigation
+- Left click and drag: orbit the model
+- Right click and drag: pan the model (Currently always moves relative to the origin; the controls may not feel intuitive. Will be fixed in the future to pan relative to the camera.)
+- Scroll wheel: zoom in and out
+
 ## Objectives
 
 - An intuitive way to view slices with their exposures and how they may interact with nearby layers
@@ -32,6 +55,7 @@ The software currently works like so:
 ## Dependencies
 
 program uses the following libraries:
+*(full list and versions can be found in requirements.txt)*
 
 	NumPy - scientific computing
     TKinter and ttkbootstrap - gui magic
