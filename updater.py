@@ -18,14 +18,6 @@ ZIP_URL = 'https://api.github.com/repos/3D-Printing-for-Microfluidics/3d_slice_v
 def update():
     print("Updating...")
 
-    # get github auth token from remote server
-    try:
-        with requests.get(SERVER_URL) as f:
-            token = str(f.text).strip()
-    except:
-        print("\tFailed to connect to auth server.")
-        return
-
     # check the latest version number
     currentVersion = __version__
     with requests.get(VERSION_URL) as f:
