@@ -45,7 +45,7 @@ if '%1'=='ELEV' (del "%vbsGetPrivileges%" 1>nul 2>nul  &  shift /1)
 ::::::::::::::::::::::::::::
 
 cd "C:\3d_slice_viewer"
-python -m venv env
+python -m venv venv
 CALL .\venv\Scripts\activate
 pip install -r requirements.txt
 CALL .\venv\Scripts\deactivate.bat
