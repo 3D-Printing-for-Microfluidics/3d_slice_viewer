@@ -1,8 +1,10 @@
 import tkinter as tk
+from tkinter import Tk
 from tkinter import ttk, filedialog
 import ttkbootstrap as ttkb
 from direct.showbase.ShowBase import ShowBase
 import time
+import sys
 from panda3d.core import WindowProperties
 
 import viewer_config  # Import configuration settings
@@ -106,9 +108,46 @@ class VerticalRangeSlider(tk.Canvas):
     def release(self, event):
         self.dragging = None
 
+import platform
+
+def _enable_high_dpi(root: Tk) -> None:
+    """
+    Make fonts and geometry respect the monitor’s DPI.
+
+    • On Windows we ask the process to become DPI-aware (so the OS stops
+      bitmap-stretching the whole window) and then tell Tk the correct
+      pixels-per-point value.
+    • On Linux / macOS Tk already queries X11 / Quartz, but it still needs
+      the scaling factor set once at start-up.
+    """
+    # --- 1.  Get OS-level DPI (pixels per *logical* inch) --------------------
+    if sys.platform.startswith("win"):
+        # Ask Windows to give us per-monitor DPI numbers (Win 8.1+)
+        try:
+            import ctypes
+            ctypes.windll.shcore.SetProcessDpiAwareness(2)        # per-monitor v2
+        except Exception:
+            pass  # older Windows – ignore
+
+    pixels_per_inch = root.winfo_fpixels('1i')     # physical px in 1 CSS inch
+    scale = pixels_per_inch / 72                   # Tk scaling = px / point
+
+    # --- 2.  Hand that factor to the Tk runtime ------------------------------
+    # Tk ≤ 8.6: use the low-level tcl command
+    root.tk.call('tk', 'scaling', scale)
+
+    # --- 3.  If you use ttk-bootstrap, sync its internal scaling -------------
+    try:
+        import ttkbootstrap as ttkb
+        if isinstance(root, ttkb.Window):
+            root.set_scaling(scale)                # ttkbootstrap ≥ 1.5
+    except ModuleNotFoundError:
+        pass
+
 class ViewerApp:
     def __init__(self):
         self.root = tk.Tk()
+        _enable_high_dpi(self.root)  # Enable high DPI support
         self.layer_opacity = 0.01
         self.setup_window()
         self.create_widgets()
