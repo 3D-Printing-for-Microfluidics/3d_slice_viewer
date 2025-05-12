@@ -5,7 +5,6 @@
 ### Installation
 - Download all files from GitHub as .zip
 - Extract the zip to wherever you want the program to be installed (ie C:/Homegrown Software/)
-- Ensure that the extracted folder is named "3d_slice_viewer"
 - Run "installer.bat"
 - After that, you can use the included shortcut (3d_slice_viewer.lnk) to run the program. Shortcut can be placed on your desktop or anywhere else.
 	- *Program will auto-update on start-up*
