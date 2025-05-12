@@ -3,6 +3,7 @@
 ## How to Use
 
 ### Installation
+- Ensure you have Anaconda installed
 - Download all files from GitHub as .zip
 - Extract the zip to wherever you want the program to be installed (ie C:/Homegrown Software/)
 - Run "installer.bat"
