@@ -6,7 +6,7 @@
 - Download all files from GitHub as .zip
 - Extract the zip to wherever you want the program to be installed (ie C:/Homegrown Software/)
 - Run "installer.bat"
-- After that, you can use the included shortcut (3d_slice_viewer.lnk) to run the program. Shortcut can be placed on your desktop or anywhere else.
+- After that, you can use the start.bat to start the program.
 	- *Program will auto-update on start-up*
 ### To Use
 - You will need a sliced print file that is UNZIPPED
