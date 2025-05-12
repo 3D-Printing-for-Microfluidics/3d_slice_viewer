@@ -8,8 +8,6 @@ from panda3d.core import (
     Filename, TextNode, TransparencyAttrib
 )
 from print_processor import PrintProcessor
-import os
-import tkinter as tk
 from concurrent.futures import ThreadPoolExecutor
 import threading
 import hashlib

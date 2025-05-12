@@ -2,8 +2,6 @@ import tkinter as tk
 from tkinter import ttk, filedialog
 import ttkbootstrap as ttkb
 from direct.showbase.ShowBase import ShowBase
-import sys
-import os
 import time
 
 import viewer_config  # Import configuration settings

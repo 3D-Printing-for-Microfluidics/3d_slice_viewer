@@ -1,5 +1,6 @@
-tkinter
-numpy
-Pillow
-Panda3D
-ttkbootstrap
+tk==0.1.0
+numpy==2.2.4
+Pillow==11.1.0
+Panda3D==1.10.15
+ttkbootstrap==1.12.1
+opencv-python==4.11.0.86
