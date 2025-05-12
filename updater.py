@@ -31,7 +31,7 @@ def update():
 
     # clean root directory
     for f in ROOT_DIR.glob('*'):
-        if f.name != "env" and f.name != ".git":
+        if f.name != "venv" and f.name != ".git":
             if f.is_dir():
                 shutil.rmtree(f)
             else:
