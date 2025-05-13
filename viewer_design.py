@@ -19,9 +19,11 @@ class VerticalRangeSlider(tk.Canvas):
         self.top_val    = initial_top
         self.callback   = callback
 
+        self.scale   = float(self.tk.call('tk', 'scaling'))
+        self.radius  = int(6 * self.scale) 
+
         # background rectangle
         self.create_rectangle(0, 0, width, height, fill=bg, width=4, outline=viewer_config.FG_COLOR)
-
 
         # coords for the slider line
         self.line_x = width // 2
@@ -334,9 +336,19 @@ class ViewerApp:
         layer_controls_frame.pack(fill=tk.X, padx=viewer_config.PADDING, pady=viewer_config.PADDING)
 
         # Layer range slider (vertical)
-        self.range_slider = VerticalRangeSlider(layer_controls_frame, min_val=1, max_val=100,
-                                                initial_bottom=1, initial_top=100,
-                                                callback=self.update_layer_range)
+        scale = float(self.root.tk.call('tk', 'scaling'))   # 1.0 on 96 dpi; 1.5 on 144 dpi …
+
+        # Create the slider with DPI-aware geometry
+        self.range_slider = VerticalRangeSlider(
+                layer_controls_frame,
+                min_val    = 1,
+                max_val    = 200,
+                initial_bottom = 1,
+                initial_top    = 200,
+                width  = int(50  * scale),
+                height = int(300 * scale),
+                callback = self.update_layer_range,
+        )
         self.range_slider.pack(padx=viewer_config.PADDING, pady=viewer_config.PADDING)
 
         # Precise range controls frame
