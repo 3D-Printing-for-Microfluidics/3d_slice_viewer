@@ -3,11 +3,19 @@
 ## How to Use
 
 ### Installation
+## **Windows**
 - Ensure you have Python installed (Anaconda preferred)
 - Download all files from GitHub as .zip
 - Extract the zip to wherever you want the program to be installed (ie C:/Homegrown Software/)
-- Run "**installer.bat**"
-- After that, you can use the **start.bat** to start the program.
+- Run "**installer_WIN.bat**"
+- After that, you can use the **start_WIN.bat** to start the program.
+	- *Program will auto-update on start-up*
+## **Mac** (untested as of 5/13/25)
+- Ensure you have Python installed (like Xcode CLT or Homebrew Python)
+- Download all files from GitHub as .zip
+- Extract the zip to wherever you want the program to be installed (ie C:/Homegrown Software/)
+- Run "**installer_MAC.command**" (.command means you can double-click to run it)
+- After that, you can use the **start_MAC.command** to start the program.
 	- *Program will auto-update on start-up*
 ### To Use
 - You will need a sliced print file that is *UNZIPPED*
