@@ -17,10 +17,7 @@ class VerticalRangeSlider(tk.Canvas):
         self.max_val = max_val
         self.bottom_val = initial_bottom
         self.top_val    = initial_top
-        self.callback   = callback
-
-        self.scale   = float(self.tk.call('tk', 'scaling'))
-        self.radius  = int(6 * self.scale) 
+        self.callback   = callback 
 
         # background rectangle
         self.create_rectangle(0, 0, width, height, fill=bg, width=4, outline=viewer_config.FG_COLOR)
@@ -40,7 +37,8 @@ class VerticalRangeSlider(tk.Canvas):
         )
 
         # handle circles
-        self.handle_radius = 8
+        self.scale   = float(self.tk.call('tk', 'scaling'))
+        self.handle_radius  = int(8 * self.scale)
         self.bottom_handle = self.create_oval(0,0,0,0, fill="darkorange")
         self.top_handle    = self.create_oval(0,0,0,0, fill="darkorange")
 
@@ -345,8 +343,8 @@ class ViewerApp:
                 max_val    = 200,
                 initial_bottom = 1,
                 initial_top    = 200,
-                width  = int(50  * scale),
-                height = int(300 * scale),
+                width  = int(60  * scale),
+                height = int(200 * scale),
                 callback = self.update_layer_range,
         )
         self.range_slider.pack(padx=viewer_config.PADDING, pady=viewer_config.PADDING)
