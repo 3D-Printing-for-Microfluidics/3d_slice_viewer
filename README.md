@@ -24,7 +24,9 @@
 - Scroll wheel: zoom in and out
 ### Themes! ***(New)***
 - In "**viewer_config.py**" you can find this near the top:
+
 	**THEME = "dark"**  # Options: "dark", "light", "midnight", "forest", "softBlue", "softPink", "softGreen"
+
 - simply replace the variable with one of the options, save the file, then restart the program to apply.
 
 ## Objectives
