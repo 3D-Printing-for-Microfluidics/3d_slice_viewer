@@ -20,27 +20,27 @@ class VerticalRangeSlider(tk.Canvas):
         self.callback   = callback 
 
         # background rectangle
-        self.create_rectangle(0, 0, width, height, fill=bg, width=4, outline=viewer_config.FG_COLOR)
+        self.create_rectangle(0, 0, width, height, fill=bg, width=4, outline=viewer_config.SLIDER_OUTLINE)
 
         # coords for the slider line
         self.line_x = width // 2
         self.line_y0 = 10
         self.line_y1 = height - 10
         self.create_line(self.line_x, self.line_y0, self.line_x, self.line_y1,
-                         fill="gray", width=4)
+                         fill=viewer_config.SLIDER_FG, width=4)
 
         # draw a “range” rectangle *behind* the handles:
         # note: width=0 for no border
         self.range_rect = self.create_rectangle(
             self.line_x-4, self.line_y0, self.line_x+4, self.line_y1,
-            fill="lightgray", width=0
+            fill=viewer_config.SLIDER_BG, width=0
         )
 
         # handle circles
         self.scale   = float(self.tk.call('tk', 'scaling'))
         self.handle_radius  = int(8 * self.scale)
-        self.bottom_handle = self.create_oval(0,0,0,0, fill="darkorange")
-        self.top_handle    = self.create_oval(0,0,0,0, fill="darkorange")
+        self.bottom_handle = self.create_oval(0,0,0,0, fill=viewer_config.SLIDER_ACCENT, outline=viewer_config.BG_COLOR)
+        self.top_handle    = self.create_oval(0,0,0,0, fill=viewer_config.SLIDER_ACCENT, outline=viewer_config.BG_COLOR)
 
         self.update_handle_positions()
 
@@ -163,13 +163,18 @@ class ViewerApp:
         # Minimum window so the side bars never crunch together
         self.root.minsize(800, 600)
 
-        # Apply custom dark theme from viewer_config.py
+        # Apply custom theme from viewer_config.py
         style.configure('Viewer.TFrame', background=viewer_config.BG_COLOR)
         style.configure('Viewer.TLabel',
                         background=viewer_config.BG_COLOR,
                         foreground=viewer_config.FG_COLOR,
                         font=(viewer_config.FONT_FAMILY, viewer_config.FONT_SIZE))
         style.configure('Viewer.TButton',
+                        background=viewer_config.BUTTON_BG,
+                        foreground=viewer_config.BUTTON_FG,
+                        padding=viewer_config.PADDING,
+                        relief="flat")
+        style.configure('ViewerFile.TButton',
                         background=viewer_config.BUTTON_BG,
                         foreground=viewer_config.BUTTON_FG,
                         padding=viewer_config.PADDING,
@@ -193,26 +198,32 @@ class ViewerApp:
                         sliderlength=20,  # Size of the slider thumb
                         )
 
-        # Buttons hover effect for orange outline
+        # Buttons hover effect
         style.map("Viewer.TButton",
-                background=[('active', '#FFA500'),
-                            ('!active', '#FF8000')])  # Adjust hover color to orange
+                background=[('active', viewer_config.BUTTON_ACTIVE_COLOR),
+                            ('!active', viewer_config.BUTTON_INACTIVE_COLOR)],)
         style.map("Viewer.TButton",
+                foreground=[('active', viewer_config.BG_COLOR),
+                            ('!active', viewer_config.BG_COLOR)])
+        style.map("ViewerFile.TButton",
+                background=[('active', viewer_config.FILE_BUTTON_ACTIVE_COLOR),
+                            ('!active', viewer_config.FILE_BUTTON_INACTIVE_COLOR)],)
+        style.map("ViewerFile.TButton",
                 foreground=[('active', viewer_config.BG_COLOR),
                             ('!active', viewer_config.BG_COLOR)])
 
 
         # Apply color changes to checkboxes when checked (orange checkmark)
         style.configure("Viewer.TCheckbutton",
-                        focuscolor="transparent",  # Remove the default focus ring color
-                        highlightthickness=0)  # No blue outline on focus
+                        focuscolor="transparent",
+                        highlightthickness=0)
         style.map("Viewer.TCheckbutton",
                 background=[('active', viewer_config.BG_COLOR)],
-                highlightcolor=[('selected', '#FFA500'),  # Orange when selected
-                                ('!selected', '#FF8000')])  # Lighter orange when not selected
+                highlightcolor=[('selected', viewer_config.BUTTON_ACTIVE_COLOR),
+                                ('!selected', viewer_config.BG_COLOR)])
         style.map("Viewer.TCheckbutton",
-                foreground=[('active', '#FFFFFF'),
-                            ('!active', '#FFFFFF')])  # White text on checkbox
+                foreground=[('active', viewer_config.FG_COLOR),
+                            ('!active', viewer_config.FG_COLOR)])
 
 
     def create_widgets(self):
@@ -324,7 +335,7 @@ class ViewerApp:
         file_frame = ttk.LabelFrame(self.control_panel, text="File Controls",
                                     style='Viewer.TLabelframe')
         file_frame.pack(fill=tk.X, padx=viewer_config.PADDING, pady=viewer_config.PADDING)
-        open_button = ttk.Button(file_frame, text="Open Directory", command=self.open_directory)
+        open_button = ttk.Button(file_frame, text="Open Directory", style='ViewerFile.TButton', command=self.open_directory)
         open_button.pack(fill=tk.X, padx=viewer_config.PADDING, pady=viewer_config.PADDING)
 
     def create_layer_controls(self):

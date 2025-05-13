@@ -41,6 +41,13 @@ class TextureCache:
 class Viewer3D:
     def __init__(self, base):
         self.base = base
+
+        # color settings
+        hx = viewer_config.PANDA_BG_COLOR.lstrip("#")
+        r, g, b = (int(hx[i:i+2], 16) / 255.0 for i in (0, 2, 4))
+        self.base.setBackgroundColor(r, g, b, 1) 
+
+        # controls
         if not self.base.mouseWatcherNode:
             self.base.setupMouse(self.base.win)
         # camera

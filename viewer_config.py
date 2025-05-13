@@ -1,6 +1,8 @@
 from panda3d.core import Point3, Vec4, WindowProperties, TextNode
 from direct.gui import DirectGuiGlobals as DGG
 
+THEME = "dark"  # Options: "dark", "light", "midnight", "forest", "softBlue", "softPink", "softGreen"
+
 # Window settings
 WINDOW_TITLE = "3D Slice Viewer"
 WINDOW_SIZE = (1400, 800)
@@ -24,7 +26,6 @@ WHEEL_ZOOM_FACTOR = 0.9  # For zooming in (use reciprocal for zooming out)
 
 # Colors
 EXPOSURE_COLORS = [
-    "#ee6352",  # Bittersweet Red
     "#59cd90",  # Emerald
     "#3fa7d6",  # Picton Blue
     "#fac05e",  # Xanthous Yellow
@@ -32,20 +33,161 @@ EXPOSURE_COLORS = [
     "#a3c4f3",  # Periwinkle
     "#b39ddb",  # Lavender
     "#6a0136",  # Tyrian Purple
+    "#ee6352",  # Bittersweet Red
 ]
-MENU_FRAME_COLOR = Vec4(0.2, 0.2, 0.2, 0.8)
-BUTTON_COLOR = Vec4(0.3, 0.3, 0.3, 1.0)
-BUTTON_ACTIVE_COLOR = Vec4(0.4, 0.6, 0.4, 1.0)
-BUTTON_INACTIVE_COLOR = Vec4(0.6, 0.3, 0.3, 1.0)
-TEXT_COLOR = Vec4(1, 1, 1, 1)
-HELP_TEXT_COLOR = Vec4(1, 1, 1, 0.7)
-ENTRY_BG_COLOR = Vec4(0.15, 0.15, 0.15, 1.0)
-BG_COLOR = "#2b2b2b"
-FG_COLOR = "#ffffff"
-BUTTON_BG = "#2b2b2b"
-BUTTON_FG = "#ffffff"
-ENTRY_BG = "#45494a"
-ENTRY_FG = "#ffffff"
+
+if THEME == "dark":
+    # charcoal UI with a punchy orange accent and calm blue “file” buttons
+    BUTTON_INACTIVE_COLOR       = "#ff7b00"   # vivid orange  (idle)
+    BUTTON_ACTIVE_COLOR         = "#ffa337"   # softer orange (hover / press)
+    FILE_BUTTON_INACTIVE_COLOR  = "#1e88e5"   # calm blue     (idle)
+    FILE_BUTTON_ACTIVE_COLOR    = "#42a5f5"   # lighter blue  (hover / press)
+
+    BG_COLOR      = "#2b2b2b"   # dark grey window background
+    FG_COLOR      = "#ffffff"
+    BUTTON_BG     = BG_COLOR
+    BUTTON_FG     = FG_COLOR
+    ENTRY_BG      = "#3a3a3a"
+    ENTRY_FG      = FG_COLOR
+
+    SLIDER_ACCENT  = BUTTON_INACTIVE_COLOR
+    SLIDER_FG      = "#555555"   # lightGray
+    SLIDER_BG      = "#d3d3d3"   # darkGray
+    SLIDER_OUTLINE = FG_COLOR
+
+    PANDA_BG_COLOR = "#424242"
+
+
+elif THEME == "light":
+    # clean “inverted” scheme — bright background, same orange accents / blue file btns
+    BUTTON_INACTIVE_COLOR       = "#1e88e5"
+    BUTTON_ACTIVE_COLOR         = "#42a5f5"
+    FILE_BUTTON_INACTIVE_COLOR  = "#ff7b00"
+    FILE_BUTTON_ACTIVE_COLOR    = "#ffa337"
+
+    BG_COLOR      = "#dddddd"    # light grey
+    FG_COLOR      = "#212121"    # near-black text
+    BUTTON_BG     = BG_COLOR
+    BUTTON_FG     = FG_COLOR
+    ENTRY_BG      = "#f5f5f5"
+    ENTRY_FG      = FG_COLOR
+
+    SLIDER_ACCENT  = BUTTON_INACTIVE_COLOR
+    SLIDER_FG      = "#d9d9d9"   # lightGray
+    SLIDER_BG      = "#666666"   # darkGray
+    SLIDER_OUTLINE = "#666666"   # darkGray
+
+    PANDA_BG_COLOR = "#f0f0f0"
+
+
+elif THEME == "midnight":
+    # extra-dark UI, teal-purple highlights, buttons lean slate-grey
+    BUTTON_INACTIVE_COLOR       = "#6b7280"   # slate-grey (idle)
+    BUTTON_ACTIVE_COLOR         = "#8f949e"   # lighter slate (hover / press)
+    FILE_BUTTON_INACTIVE_COLOR  = "#5c6bc0"   # softer indigo (hover / press)
+    FILE_BUTTON_ACTIVE_COLOR    = "#3949ab"   # indigo (idle)
+
+    BG_COLOR      = "#0d1117"    # near-black with a hint of blue
+    FG_COLOR      = "#eceff4"
+    BUTTON_BG     = BG_COLOR
+    BUTTON_FG     = FG_COLOR
+    ENTRY_BG      = "#1b2130"
+    ENTRY_FG      = FG_COLOR
+
+    SLIDER_ACCENT  = "#5d6dff"   # electric blue-violet track / handles
+    SLIDER_FG      = "#b0b0b0"
+    SLIDER_BG      = "#404a5a"
+    SLIDER_OUTLINE = FG_COLOR
+
+    PANDA_BG_COLOR = "#1b2130"   # dark slate-grey
+
+
+elif THEME == "forest":
+    # deep green UI with a soft yellow-green accent, buttons are a bit darker
+    BUTTON_INACTIVE_COLOR       = "#388e3c"   # deeper green
+    BUTTON_ACTIVE_COLOR         = "#4caf50"   # primary green
+    FILE_BUTTON_INACTIVE_COLOR  = "#e3bf20"   # goldenrod
+    FILE_BUTTON_ACTIVE_COLOR    = "#dbc253"   # darker golderod
+
+    BG_COLOR      = "#163b16"   # deep green
+    FG_COLOR      = "#ffffff"
+    BUTTON_BG     = BG_COLOR
+    BUTTON_FG     = FG_COLOR
+    ENTRY_BG      = "#ffffff"
+    ENTRY_FG      = FG_COLOR
+
+    SLIDER_ACCENT  = BUTTON_INACTIVE_COLOR
+    SLIDER_FG      = "#dcdcdc"
+    SLIDER_BG      = "#646464"
+    SLIDER_OUTLINE = "#646464"
+
+    PANDA_BG_COLOR = "#c8e6c9"   # light green-grey
+
+
+elif THEME == "softBlue":
+    # airy cream canvas, baby-blue accents, deeper aqua file buttons
+    BUTTON_INACTIVE_COLOR       = "#4fc3f7"   # brighter baby-blue
+    BUTTON_ACTIVE_COLOR         = "#a6d4fa"   # very light sky-blue
+    FILE_BUTTON_INACTIVE_COLOR  = "#007acc"   # azure
+    FILE_BUTTON_ACTIVE_COLOR    = "#2196f3"   # primary blue
+
+    BG_COLOR      = "#b8cce0"   # light blue-grey
+    FG_COLOR      = "#1a1a1a"
+    BUTTON_BG     = BG_COLOR
+    BUTTON_FG     = FG_COLOR
+    ENTRY_BG      = "#ffffff"
+    ENTRY_FG      = FG_COLOR
+
+    SLIDER_ACCENT  = BUTTON_INACTIVE_COLOR
+    SLIDER_FG      = "#dcdcdc"
+    SLIDER_BG      = "#646464"
+    SLIDER_OUTLINE = "#646464"
+
+    PANDA_BG_COLOR = "#e6dec5"    # warm off-white
+
+
+elif THEME == "softPink":
+    # gentle cream canvas with blush-pink buttons, lavender file buttons
+    BUTTON_INACTIVE_COLOR       = "#f48fb1"   # stronger blush
+    BUTTON_ACTIVE_COLOR         = "#f8bbd0"   # pale blush
+    FILE_BUTTON_INACTIVE_COLOR  = "#ba68c8"   # soft lavender
+    FILE_BUTTON_ACTIVE_COLOR    = "#ab47bc"   # richer lavender
+
+    BG_COLOR      = "#fae6f8"   # light pink-grey
+    FG_COLOR      = "#1a1a1a"
+    BUTTON_BG     = FG_COLOR
+    BUTTON_FG     = "#262222"
+    ENTRY_BG      = "#ffffff"
+    ENTRY_FG      = FG_COLOR
+
+    SLIDER_ACCENT  = FILE_BUTTON_INACTIVE_COLOR
+    SLIDER_FG      = "#e3e3e3"
+    SLIDER_BG      = "#646464"
+    SLIDER_OUTLINE = "#646464"
+
+    PANDA_BG_COLOR = "#d4cddb"   # light lavender-grey
+
+elif THEME == "softGreen":
+    # soft green canvas with minty buttons, deeper green file buttons
+    BUTTON_INACTIVE_COLOR       = "#81c784"   # minty green
+    BUTTON_ACTIVE_COLOR         = "#a5d6a7"   # lighter mint
+    FILE_BUTTON_INACTIVE_COLOR  = "#388e3c"   # deeper green
+    FILE_BUTTON_ACTIVE_COLOR    = "#4caf50"   # primary green
+
+    BG_COLOR      = "#e8f5e9"    # soft green
+    FG_COLOR      = "#1a1a1a"
+    BUTTON_BG     = BG_COLOR
+    BUTTON_FG     = FG_COLOR
+    ENTRY_BG      = "#ffffff"
+    ENTRY_FG      = FG_COLOR
+
+    SLIDER_ACCENT  = BUTTON_INACTIVE_COLOR
+    SLIDER_FG      = "#e3e3e3"
+    SLIDER_BG      = "#646464"
+    SLIDER_OUTLINE = "#646464"
+
+    PANDA_BG_COLOR = "#c8e6c9"   # light green-grey
+
 
 # Fonts
 FONT_FAMILY = "Arial"
