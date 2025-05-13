@@ -283,26 +283,6 @@ REAL_PROPORTION = 10.0 / 7.6  # Layer thickness divided by pixel size
 IMAGE_SCALE_FACTOR = 0.00075  # Percentage of image width for spacing
 EXPOSURE_SPACING_FACTOR = 0.1  # Relative spacing between exposures
 
-def get_button_style(wide=False):
-    """Get common button style settings."""
-    return {
-        'text_scale': BUTTON_TEXT_SCALE,
-        'scale': BUTTON_SCALE,
-        'frameColor': BUTTON_COLOR,
-        'text_fg': TEXT_COLOR,
-        'relief': DGG.RAISED,
-        'frameSize': WIDE_BUTTON_SIZE if wide else NAV_BUTTON_SIZE
-    }
-
-def get_text_style(color=None, align=TextNode.ALeft):
-    """Get common text style settings."""
-    if color is None:
-        color = TEXT_COLOR
-    return {
-        'fg': color,
-        'align': align,
-        'mayChange': True
-    }
 
 def get_window_properties():
     """Get the window properties for Panda3D."""
