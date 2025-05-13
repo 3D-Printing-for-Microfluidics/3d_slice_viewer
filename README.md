@@ -3,15 +3,15 @@
 ## How to Use
 
 ### Installation
-- Ensure you have Anaconda installed
+- Ensure you have Python installed (Anaconda preferred)
 - Download all files from GitHub as .zip
 - Extract the zip to wherever you want the program to be installed (ie C:/Homegrown Software/)
-- Run "installer.bat"
-- After that, you can use the start.bat to start the program.
+- Run "**installer.bat**"
+- After that, you can use the **start.bat** to start the program.
 	- *Program will auto-update on start-up*
 ### To Use
-- You will need a sliced print file that is UNZIPPED
-- Make sure the highest level slices folder (same folder as the print_settings.json) is named "minimized_slices"
+- You will need a sliced print file that is *UNZIPPED*
+- Make sure the highest level slices folder (same folder as the print_settings.json) is named "**minimized_slices**"
 - Start the slice viewer program
 - Click "Open Directory" in the top left (blue button) and select your print file folder
 - Your print file should load in as a stack of slices arranged in 3D space and color-coded based on exposure time.
@@ -22,6 +22,10 @@
 - Left click and drag: orbit the model
 - Right click and drag: pan the model (Currently always moves relative to the origin; the controls may not feel intuitive. Will be fixed in the future to pan relative to the camera.)
 - Scroll wheel: zoom in and out
+### Themes! ***(New)***
+- In "**viewer_config.py**" you can find this near the top:
+	**THEME = "dark"**  # Options: "dark", "light", "midnight", "forest", "softBlue", "softPink", "softGreen"
+- simply replace the variable with one of the options, save the file, then restart the program to apply.
 
 ## Objectives
 
