@@ -27,7 +27,7 @@ def update():
 
     if currentVersion == latestVersion:
         print("\tThis is the latest version.")
-        return
+        return 1
 
     # clean root directory
     for f in ROOT_DIR.glob('*'):
@@ -57,3 +57,5 @@ def update():
         os.remove(filename)
 
     print(f"\tProgram updated to {latestVersion}. Restart to finish update.")
+
+    return 0
