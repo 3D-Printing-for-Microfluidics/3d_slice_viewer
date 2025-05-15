@@ -5,7 +5,7 @@ from direct.gui.DirectGui import *
 from panda3d.core import (
     Point3, Vec3, Vec4, CardMaker, Texture, GeomVertexFormat, GeomVertexData,
     GeomVertexWriter, Geom, GeomTriangles, GeomNode, NodePath, WindowProperties,
-    Filename, TextNode, TransparencyAttrib
+    Filename, TextNode, TransparencyAttrib, AmbientLight, DirectionalLight, SamplerState
 )
 from print_processor import PrintProcessor
 from concurrent.futures import ThreadPoolExecutor
@@ -62,6 +62,20 @@ class Viewer3D:
         self.setup_controls()
         # scene root
         self.root = self.base.render.attachNewNode("root")
+        # lighting
+        # --- ambient light -------------------------------------------------
+        a_light = AmbientLight("ambient")
+        a_light.setColor(Vec4(0.35, 0.35, 0.35, 1))      # grey ≈ “fill” light
+        self.ambient_np = self.root.attachNewNode(a_light)
+        self.base.render.setLight(self.ambient_np)
+
+        # --- key light (directional) --------------------------------------
+        d_light = DirectionalLight("key")
+        d_light.setColor(Vec4(0.90, 0.90, 0.90, 1))      # bright white
+        self.directional_np = self.root.attachNewNode(d_light)
+        self.directional_np.setHpr(45, -45, 0)           # azimuth 45°, elevation 45°
+        self.base.render.setLight(self.directional_np)
+
         self.base.render.setShaderAuto()
         # modes
         self.show_positive = True
@@ -481,6 +495,12 @@ class Viewer3D:
         tex = Texture("layer_tex")
         tex.setup2dTexture(img_rgba.shape[1], img_rgba.shape[0],
                            Texture.T_unsigned_byte, Texture.F_rgba)
+        
+        tex.setWrapU(SamplerState.WM_clamp)
+        tex.setWrapV(SamplerState.WM_clamp)
+        tex.setMinfilter(SamplerState.FT_linear)
+        tex.setMagfilter(SamplerState.FT_linear)
+
         tex.setRamImage(img_rgba.tobytes())
         if not self.high_quality:
             tex.setCompression(Texture.CMDefault)
@@ -554,6 +574,12 @@ class Viewer3D:
         tex = Texture("layer_tex")
         tex.setup2dTexture(img_rgba.shape[1], img_rgba.shape[0],
                            Texture.T_unsigned_byte, Texture.F_rgba)
+        
+        tex.setWrapU(SamplerState.WM_clamp)
+        tex.setWrapV(SamplerState.WM_clamp)
+        tex.setMinfilter(SamplerState.FT_linear)
+        tex.setMagfilter(SamplerState.FT_linear)
+
         tex.setRamImage(img_rgba.tobytes())
         if not self.high_quality:
             tex.setCompression(Texture.CMDefault)
